@@ -18,8 +18,4 @@ projeto-contas-pagas
 - [ ] Cadastrar uma entidade no Web Storage.
 - [ ] Cadastrar uma entidade no JSON Server.
 - [ ] Apresentar uma lista de dados com a diretiva estrutural ngFor.
-<<<<<<< Updated upstream
 - [ ] Usar a diretiva ngIf
-=======
-- [ ] Usar a diretiva ngIf
->>>>>>> Stashed changes
