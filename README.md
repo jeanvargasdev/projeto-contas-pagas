@@ -1,6 +1,9 @@
 projeto-contas-pagas
+
 - [x] Criar o repositório no GitHub com a estrutura do Gitflow, ou seja, branches main e develop.
-- [x] Criar branches feature a partir do branch develop para cada nova funcionalidade a ser implementada. 
+- [x] Criar branches feature a partir do branch develop para cada nova funcionalidade a ser implementada.
+- [x] Criar as telas de protótipo da aplicação
+      URL: https://www.figma.com/proto/5qQpwUy8o42aFnDXhyZOgd/App-Contas-a-Pagar?node-id=4%3A4&scaling=scale-down&page-id=0%3A1&starting-point-node-id=4%3A4
 - [ ] Usar algum framework CSS (Bootstrap, Materialize ou outro).
 - [ ] Apresentar as telas com layout responsivo.
 - [ ] Usar componentes de algum framework CSS (Bootstrap, Materialize ou outro)
