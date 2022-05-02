@@ -4,13 +4,13 @@ projeto-contas-pagas
 - [x] Criar branches feature a partir do branch develop para cada nova funcionalidade a ser implementada.
 - [x] Criar as telas de protótipo da aplicação
       URL: https://www.figma.com/proto/5qQpwUy8o42aFnDXhyZOgd/App-Contas-a-Pagar?node-id=4%3A4&scaling=scale-down&page-id=0%3A1&starting-point-node-id=4%3A4
-- [ ] Usar algum framework CSS (Bootstrap, Materialize ou outro).
+- [x] Usar algum framework CSS (Bootstrap, Materialize ou outro).
+- [x] Usar componentes de algum framework CSS (Bootstrap, Materialize ou outro)
+- [x] Construir páginas web com o conceito de componentes.
+- [x] Usar pelo menos dois tipos de data-binding (Interpolation, Property Binding, Event Binding e Two Way Data Binding).
+- [x] Criar o layout da aplicação com componentes, ou seja, o cabeçalho e rodapé precisam ser componentes.
 - [ ] Apresentar as telas com layout responsivo.
-- [ ] Usar componentes de algum framework CSS (Bootstrap, Materialize ou outro)
 - [ ] Apresentar as telas com layout responsivo usando ou não algum framework CSS.
-- [ ] Construir páginas web com o conceito de componentes.
-- [ ] Criar o layout da aplicação com componentes, ou seja, o cabeçalho e rodapé precisam ser componentes.
-- [ ] Usar pelo menos dois tipos de data-binding (Interpolation, Property Binding, Event Binding e Two Way Data Binding).
 - [ ] Passar dados via hierarquia de componentes, ou seja, usando @Input ou @Output.
 - [ ] Mapear componentes à rotas no módulo de rotas.
 - [ ] Criar navegação entre páginas por meio de rotas.
