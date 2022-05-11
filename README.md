@@ -9,12 +9,12 @@ projeto-contas-pagas
 - [x] Construir páginas web com o conceito de componentes.
 - [x] Usar pelo menos dois tipos de data-binding (Interpolation, Property Binding, Event Binding e Two Way Data Binding).
 - [x] Criar o layout da aplicação com componentes, ou seja, o cabeçalho e rodapé precisam ser componentes.
-- [ ] Apresentar as telas com layout responsivo.
-- [ ] Apresentar as telas com layout responsivo usando ou não algum framework CSS.
-- [ ] Passar dados via hierarquia de componentes, ou seja, usando @Input ou @Output.
-- [ ] Mapear componentes à rotas no módulo de rotas.
-- [ ] Criar navegação entre páginas por meio de rotas.
-- [ ] Passar dados entre componentes que representam diferentes telas via parâmetros de rotas.
+- [x] Apresentar as telas com layout responsivo.
+- [x] Apresentar as telas com layout responsivo usando ou não algum framework CSS.
+- [x] Passar dados via hierarquia de componentes, ou seja, usando @Input ou @Output.
+- [x] Mapear componentes à rotas no módulo de rotas.
+- [x] Criar navegação entre páginas por meio de rotas.
+- [x] Passar dados entre componentes que representam diferentes telas via parâmetros de rotas.
 - [ ] Validar campos do formulário com REGEX e apresentar os erros.
 - [ ] Desabilitar o botão de submit enquanto o formulário está inválido.
 - [ ] Fazer requisições a API com tratamento da resposta com Promises ou Observables.
