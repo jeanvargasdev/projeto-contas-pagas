@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CredorComponent implements OnInit {
 
+  nome: string = '';
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onSubmit() {
+    console.log(`O nome é: ${this.nome}`);
+  }
 }

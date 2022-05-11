@@ -9,6 +9,9 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { InicialComponent } from './inicial/inicial.component';
 import { FormsModule } from '@angular/forms';
+import { LancamentoComponent } from './lancamento/lancamento.component';
+import { SobreComponent } from './sobre/sobre.component';
+import { CredorListaComponent } from './credor/credor-lista/credor-lista.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { FormsModule } from '@angular/forms';
     ContaComponent,
     MenuComponent,
     FooterComponent,
-    InicialComponent
+    InicialComponent,
+    LancamentoComponent,
+    SobreComponent,
+    CredorListaComponent
   ],
   imports: [
     BrowserModule,

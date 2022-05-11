@@ -1,1 +1,52 @@
-<p>Manutenção de CREDORES</p>
+<div class="container credor">
+  <h1>Manutenção de Credores</h1>
+  <h6>Entre com os dados do credor</h6>
+  <hr />
+  <div class="row">
+    <div class="col s12">
+      <div
+        id="msg-login"
+        class="card-panel red white-text"
+        style="display: none"
+      ></div>
+    </div>
+    <form class="col s12" id="form-login" (submit)="onSubmit()">
+      <div class="row">
+        <div class="input-field col s12">
+          <input
+            id="input-credor"
+            type="text"
+            name="input-credor"
+            [(ngModel)]="nome"
+          />
+          <label for="input-credor">Nome</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="input-descricao" type="text" class="validate" />
+          <label for="input-descricao">Descrição</label>
+        </div>
+      </div>
+      <button
+        class="btn waves-effect waves-light blue darken-4"
+        type="submit"
+        name="action"
+      >
+        Enviar
+        <i class="material-icons right">send</i>
+      </button>
+
+      <button
+        class="btn waves-effect waves-light red darken-4"
+        type="submit"
+        name="action"
+      >
+        Cancelar
+        <i class="material-icons right">send</i>
+      </button>
+    </form>
+  </div>
+</div>
+<app-credor-lista [nome]="this.nome"></app-credor-lista>
+

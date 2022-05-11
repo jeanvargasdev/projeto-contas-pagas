@@ -9,6 +9,7 @@ export class FooterComponent implements OnInit {
 
   ano: number;
   mensagem: string;
+  
   constructor() {
     this.ano = new Date().getFullYear();
     this.mensagem = 'Projeto Contas Pagar - UTFPR - Autor Jean Vargas - ' + this.ano + " - Todos os direitos reservados."
