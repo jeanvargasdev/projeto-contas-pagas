@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Credor } from '../model/credor';
+import { DataStorage } from '../util/DataStorage';
+import { InicialComponent } from './../inicial/inicial.component';
 
 @Component({
   selector: 'app-credor',
@@ -18,6 +20,7 @@ export class CredorComponent implements OnInit {
   ngOnInit(): void {
     this.listaCredores = [];
     this.credor = new Credor('', '');
+    //DataStorage.initDataStorage(Credor);
   }
 
   onSubmit() {
