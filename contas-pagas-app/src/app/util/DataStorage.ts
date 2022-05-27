@@ -13,7 +13,7 @@ export class DataStorage {
   }
 
   //salva item no data Storage
-  saveItem(item: string, value: any) {
+  static saveItem(item: string, value: any) {
     localStorage.setItem(item, JSON.stringify(value));
   }
 }

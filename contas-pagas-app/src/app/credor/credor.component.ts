@@ -23,17 +23,24 @@ export class CredorComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(`O nome é: ${this.nome}`);
+    //console.log(`O nome é: ${this.nome}`);
+    this.saveCredor(this.credor);
+    this.listaCredores = this.getListCredores();
   }
 
   saveCredor(credor: Credor) {
     //salva no storage
+    this.listaCredores = DataStorage.getList(this.entidade);
 
     //adiciona na lista
     this.listaCredores.push(credor);
+
+    //salva no Data Storage
+    DataStorage.saveItem(this.entidade, this.listaCredores);
   }
 
   getListCredores() {
+    this.listaCredores = DataStorage.getList(this.entidade);
     return this.listaCredores;
   }
 }
