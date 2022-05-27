@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Credor } from 'src/app/model/credor';
 
 @Component({
   selector: 'app-credor-lista',
@@ -11,6 +12,6 @@ export class CredorListaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
 
+  }
 }
