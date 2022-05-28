@@ -11,7 +11,7 @@ import { InicialComponent } from './inicial/inicial.component';
 import { FormsModule } from '@angular/forms';
 import { LancamentoComponent } from './lancamento/lancamento.component';
 import { SobreComponent } from './sobre/sobre.component';
-import { CredorListaComponent } from './credor/credor-lista/credor-lista.component';
+
 
 @NgModule({
   declarations: [
@@ -22,8 +22,7 @@ import { CredorListaComponent } from './credor/credor-lista/credor-lista.compone
     FooterComponent,
     InicialComponent,
     LancamentoComponent,
-    SobreComponent,
-    CredorListaComponent
+    SobreComponent
   ],
   imports: [
     BrowserModule,

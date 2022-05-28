@@ -10,43 +10,94 @@
         style="display: none"
       ></div>
     </div>
-    <form class="col s12" id="form-login" (submit)="onSubmit()">
+    <form
+      class="col s12"
+      #formCredor="ngForm"
+      id="form-cad-credor"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="row">
         <div class="input-field col s12">
           <input
             id="input-credor"
             type="text"
             name="input-credor"
-            [(ngModel)]="nome"
+            [(ngModel)]="this.credor.nome"
+            pattern="^(\s?[A-ZÀ-Ú][a-zà-ú]*)"
+            #t="ngModel"
+            required
           />
           <label for="input-credor">Nome</label>
+          <div class="red-text" [hidden]="t.valid || t.untouched">
+            O nome do credor deve ser de apenas uma particula....
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="input-descricao" type="text" class="validate" />
+          <input
+            id="input-descricao"
+            type="text"
+            name="input-descricao"
+            class="validate"
+            [(ngModel)]="this.credor.descricao"
+            pattern="^(\s?[A-ZÀ-Ú][a-zà-ú]*)+(\s[a-zà-ú]*)?(\s[A-ZÀ-Ú][a-zà-ú]*)+"
+            #d="ngModel"
+            required
+          />
           <label for="input-descricao">Descrição</label>
+          <div class="red-text" [hidden]="d.valid || d.untouched">
+            A descrição para o credor deve ter mais de uma particula....
+          </div>
         </div>
       </div>
       <button
         class="btn waves-effect waves-light blue darken-4"
         type="submit"
-        name="action"
+        [disabled]="!formCredor.valid"
       >
         Enviar
         <i class="material-icons right">send</i>
       </button>
 
+      <!--
       <button
         class="btn waves-effect waves-light red darken-4"
         type="submit"
         name="action"
+        [disabled]="!formCredor.valid"
       >
         Cancelar
         <i class="material-icons right">send</i>
       </button>
+      -->
     </form>
   </div>
-</div>
-<app-credor-lista [nome]="this.nome"></app-credor-lista>
 
+  <h5>Credores cadastrados</h5>
+  <table class="highlight" *ngIf="listaCredores && listaCredores!.length > 0">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of listaCredores">
+        <td>{{ c.nome }}</td>
+        <td>{{ c.descricao }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!listaCredores || listaCredores!.length == 0">
+    <div class="row">
+      <div class="center-align">
+        <span class="col s12 flow-text">
+          NENHUM CREDOR CADASTRADO "</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

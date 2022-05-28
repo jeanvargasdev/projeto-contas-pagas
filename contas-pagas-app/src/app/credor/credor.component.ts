@@ -8,8 +8,6 @@ import { DataStorage } from '../util/DataStorage';
   styleUrls: ['./credor.component.css']
 })
 export class CredorComponent implements OnInit {
-
-  nome: string = '';
   credor!: Credor;
   listaCredores!: Credor[];
   entidade: string = "credores";
@@ -17,13 +15,13 @@ export class CredorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.listaCredores = [];
-    this.credor = new Credor('', '');
+    this.credor = new Credor('', '', 0);
     DataStorage.initDataStorage(this.entidade);
+    this.listaCredores = this.getListCredores();
   }
 
   onSubmit() {
-    //console.log(`O nome é: ${this.nome}`);
+    this.credor.id = this.getListCredores().length + 1;
     this.saveCredor(this.credor);
     this.listaCredores = this.getListCredores();
   }

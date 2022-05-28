@@ -9,7 +9,10 @@ export class DataStorage {
 
   //inicializa o data Storage de acordo com o tipo de classe
   static initDataStorage(classe: string): void {
-    localStorage.setItem(classe, JSON.stringify([]));
+    if (localStorage.getItem(classe) === null)
+      localStorage.setItem(classe, JSON.stringify([]));
+    else
+      return;
   }
 
   //salva item no data Storage

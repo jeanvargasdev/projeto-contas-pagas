@@ -1,1 +1,83 @@
-<p>Manutenção de CONTAS</p>
+<div class="container conta">
+  <h1>Manutenção de Contas</h1>
+  <h6>Entre com os dados da conta</h6>
+  <hr />
+  <div class="row">
+    <div class="col s12">
+      <div
+        id="msg-login"
+        class="card-panel red white-text"
+        style="display: none"
+      ></div>
+    </div>
+    <form
+      class="col s12"
+      #formConta="ngForm"
+      id="form-cad-conta"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="row">
+        <div class="input-field col s12">
+          <input
+            id="input-tipo-conta"
+            type="text"
+            name="input-tipo-conta"
+            [(ngModel)]="this.conta.tipo"
+            pattern="^(\s?[A-ZÀ-Ú][a-zà-ú]*)"
+            #t="ngModel"
+            required
+          />
+          <label for="input-tipo-conta">Tipo</label>
+          <div class="red-text" [hidden]="t.valid || t.untouched">
+            O tipo de conta deve ser de apenas uma particula....
+          </div>
+        </div>
+      </div>
+      <button
+        class="btn waves-effect waves-light blue darken-4"
+        type="submit"
+        [disabled]="!formConta.valid"
+      >
+        Enviar
+        <i class="material-icons right">send</i>
+      </button>
+
+      <!--
+      <button
+        class="btn waves-effect waves-light red darken-4"
+        type="submit"
+        name="action"
+        [disabled]="!formConta.valid"
+      >
+        Cancelar
+        <i class="material-icons right">send</i>
+      </button>
+      -->
+    </form>
+  </div>
+
+<h5>Contas cadastradas</h5>
+<table class="highlight" *ngIf="listaContas && listaContas!.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tipo</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let c of listaContas">
+      <td>{{ c.id }}</td>
+      <td>{{ c.tipo }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!listaContas || listaContas!.length == 0">
+  <div class="row">
+    <div class="center-align">
+      <span class="col s12 flow-text"> NENHUMA CONTA CADASTRADA </span>
+    </div>
+  </div>
+</div>
+</div>
