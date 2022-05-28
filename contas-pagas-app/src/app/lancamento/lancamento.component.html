@@ -1,1 +1,91 @@
-<h1>{{this.parametro}}</h1>
+<div class="container lancamento">
+  <h1>Manutenção de Lancamentos</h1>
+
+  <form
+    class="col s12"
+    #formLancamento="ngForm"
+    id="form-cad-lancamento"
+    (ngSubmit)="onSubmit()"
+  >
+    <h6>Selecione uma conta</h6>
+    <select
+      class="browser-default"
+      [(ngModel)]="idconta"
+      name="input-idconta"
+      id="input-idconta"
+      material-select
+      (change)="onSelectChangeConta($event)"
+      required
+    >
+      <option *ngFor="let item of listaContas" [value]="item.id">
+        {{ item.tipo }}
+      </option>
+    </select>
+
+    <h6>Selecione um Credor</h6>
+    <select
+      class="browser-default"
+      [(ngModel)]="idcredor"
+      name="input-idcredor"
+      id="input-idcredor"
+      material-select
+      (change)="onSelectChangeCredor($event)"
+      required
+    >
+      <option value="-1" disabled selected>Escolha um valor</option>
+      <option *ngFor="let item of listaCredores" [value]="item.id">
+        {{ item.nome }}
+      </option>
+    </select>
+
+    <h6>Forma Pagamento</h6>
+    <select
+      (change)="this.onSelectChangeFrmPagamento($event)"
+      class="browser-default" required
+    >
+      <option value="-1" selected>Escolha um valor</option>
+      <option value="0">Dinheiro</option>
+      <option value="1">Cartão Crédito Nubanck</option>
+      <option value="2">Cartão Crédito Santander</option>
+      <option value="3">Cartão Débito Nubanck</option>
+      <option value="4">Cartão Débito Santander</option>
+      <option value="5">PIX</option>
+    </select>
+
+    <h6>Valor pago</h6>
+    <input
+      id="input-valor-pago"
+      name="input-valor-pago"
+      type="text"
+      [(ngModel)]="this.lancamento.valor"
+      mask="separator.2"
+      [thousandSeparator]="'.'"
+      [decimalMarker]="','"
+      prefix="R$ "
+      [dropSpecialCharacters]="true"
+      [showMaskTyped]="false"
+      required
+    />
+    <label class="active" for="input-valor-pago">Valor Pago</label>
+
+    <input
+      id="input-data"
+      name="input-data"
+      type="date"
+      class="validate"
+      [(ngModel)]="this.lancamento.dataLancamento"
+      required
+    />
+    <label for="input-data">Data de Pagamento</label>
+    <div class="row">
+      <button
+        class="btn waves-effect waves-light blue darken-4"
+        type="submit"
+        [disabled]="!formLancamento.valid"
+      >
+        Enviar
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </form>
+</div>

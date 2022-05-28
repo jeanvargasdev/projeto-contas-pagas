@@ -11,6 +11,7 @@ import { InicialComponent } from './inicial/inicial.component';
 import { FormsModule } from '@angular/forms';
 import { LancamentoComponent } from './lancamento/lancamento.component';
 import { SobreComponent } from './sobre/sobre.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { SobreComponent } from './sobre/sobre.component';
     LancamentoComponent,
     SobreComponent
   ],
-  imports: [
+  imports: [NgxMaskModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     FormsModule
