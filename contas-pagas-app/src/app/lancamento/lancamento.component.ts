@@ -45,6 +45,11 @@ export class LancamentoComponent implements OnInit {
 
   onSubmit() {
     this.lancamento.id = this.getListLancamentos().length + 1;
+
+    if (this.lancamento.valor === 0) {
+      alert("Valor precisa ser maior que zero");
+      return;
+    }
     this.saveLancamento(this.lancamento);
     this.listaLancamentos = this.getListLancamentos();
   }

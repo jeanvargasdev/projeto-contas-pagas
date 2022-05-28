@@ -1,82 +1,105 @@
-<div class="container lancamento">
-  <h1>Manutenção de Lancamentos</h1>
+<div class="container">
+  <h1>Manutenção de Lançamentos</h1>
+  <h6>Entre com os dados do lançamento</h6>
+  <hr />
 
   <form
     class="col s12"
     #formLancamento="ngForm"
     id="form-cad-lancamento"
     (ngSubmit)="onSubmit()"
+
   >
-    <h6>Selecione uma conta</h6>
-    <select
-      class="browser-default"
-      [(ngModel)]="idconta"
-      name="input-idconta"
-      id="input-idconta"
-      material-select
-      (change)="onSelectChangeConta($event)"
-      required
-    >
-      <option *ngFor="let item of listaContas" [value]="item.id">
-        {{ item.tipo }}
-      </option>
-    </select>
+    <div class="row" >
+      <div class="select-field col s12" >
+        <label class="active" for="input-idconta">Contas</label>
+        <select
+          class="browser-default"
+          [(ngModel)]="idconta"
+          name="input-idconta"
+          id="input-idconta"
+          material-select
+          (change)="onSelectChangeConta($event)"
+          required
+        >
+          <option *ngFor="let item of listaContas" [value]="item.id">
+            {{ item.tipo }}
+          </option>
+        </select>
 
-    <h6>Selecione um Credor</h6>
-    <select
-      class="browser-default"
-      [(ngModel)]="idcredor"
-      name="input-idcredor"
-      id="input-idcredor"
-      material-select
-      (change)="onSelectChangeCredor($event)"
-      required
-    >
-      <option value="-1" disabled selected>Escolha um valor</option>
-      <option *ngFor="let item of listaCredores" [value]="item.id">
-        {{ item.nome }}
-      </option>
-    </select>
+      </div>
+    </div>
 
-    <h6>Forma Pagamento</h6>
-    <select
-      (change)="this.onSelectChangeFrmPagamento($event)"
-      class="browser-default" required
-    >
-      <option value="-1" selected>Escolha um valor</option>
-      <option value="0">Dinheiro</option>
-      <option value="1">Cartão Crédito Nubanck</option>
-      <option value="2">Cartão Crédito Santander</option>
-      <option value="3">Cartão Débito Nubanck</option>
-      <option value="4">Cartão Débito Santander</option>
-      <option value="5">PIX</option>
-    </select>
+    <div class="row">
+      <div class="select-field col s12">
+        <label class="active" for="input-idcredor">Credores</label>
+        <select
+          class="browser-default"
+          [(ngModel)]="idcredor"
+          name="input-idcredor"
+          id="input-idcredor"
+          material-select
+          (change)="onSelectChangeCredor($event)"
+          required
+        >
+          <option value="-1" disabled selected>Escolha um valor</option>
+          <option *ngFor="let item of listaCredores" [value]="item.id">
+            {{ item.nome }}
+          </option>
+        </select>
 
-    <h6>Valor pago</h6>
-    <input
-      id="input-valor-pago"
-      name="input-valor-pago"
-      type="text"
-      [(ngModel)]="this.lancamento.valor"
-      mask="separator.2"
-      [thousandSeparator]="'.'"
-      [decimalMarker]="','"
-      prefix="R$ "
-      [dropSpecialCharacters]="true"
-      [showMaskTyped]="false"
-      required
-    />
-    <label class="active" for="input-valor-pago">Valor Pago</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="select-field col s12">
+        <label class="active" for="input-frm-pgto">Formas de Pagamento</label>
+        <select
+          (change)="this.onSelectChangeFrmPagamento($event)"
+          class="browser-default"
+          required="true" id="input-frm-pgto"
+        >
+          <option value="-1" disabled selected>Escolha um valor</option>
+          <option value="0">Dinheiro</option>
+          <option value="1">Cartão Crédito Nubanck</option>
+          <option value="2">Cartão Crédito Santander</option>
+          <option value="3">Cartão Débito Nubanck</option>
+          <option value="4">Cartão Débito Santander</option>
+          <option value="5">PIX</option>
+        </select>
 
-    <input
-      id="input-data"
-      name="input-data"
-      type="date"
-      class="validate"
-      [(ngModel)]="this.lancamento.dataLancamento"
-      required
-    />
-    <label for="input-data">Data de Pagamento</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+      <input
+        id="input-valor-pago"
+        name="input-valor-pago"
+        type="text"
+        [(ngModel)]="this.lancamento.valor"
+        mask="separator.2"
+        [thousandSeparator]="'.'"
+        [decimalMarker]="','"
+        prefix="R$ "
+        [dropSpecialCharacters]="true"
+        [showMaskTyped]="false"
+        [required]="true"
+      />
+      <label class="active" for="input-valor-pago">Valor Pago</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+      <input
+        id="input-data"
+        name="input-data"
+        type="date"
+        class="validate"
+        [(ngModel)]="this.lancamento.dataLancamento"
+        required
+      />
+      <label for="input-data">Data de Pagamento</label>
+      </div>
+    </div>
     <div class="row">
       <button
         class="btn waves-effect waves-light blue darken-4"
@@ -88,4 +111,43 @@
       </button>
     </div>
   </form>
+  <div class="row">
+    <h5>Lançamentos</h5>
+    <table
+      class="highlight"
+      *ngIf="listaLancamentos && listaLancamentos!.length > 0"
+    >
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Conta</th>
+          <th>Credor</th>
+          <th>Valor Pago</th>
+          <th>Data Pgto</th>
+          <th>Forma Pgto</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of listaLancamentos">
+          <td>{{ c.id }}</td>
+          <td>{{ c.conta.tipo }}</td>
+          <td>{{ c.credor.nome }}</td>
+          <td>{{ c.valor | currency: "BRL" }}</td>
+          <td>{{ c.dataLancamento | date: "dd/MM/yyyy" }}</td>
+          <td>{{ c.frmPagamento }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+   <div *ngIf="!listaLancamentos || listaLancamentos!.length == 0">
+    <div class="row">
+      <div class="center-align">
+        <span class="col s12 flow-text">
+          NENHUM LANÇAMENTO CADASTRADO "</span
+        >
+      </div>
+    </div>
+  </div>
 </div>
