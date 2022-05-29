@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Credor } from '../model/credor';
 import { DataStorage } from '../util/DataStorage';
+import { CredorService } from './../services/CredorService';
 
 @Component({
   selector: 'app-credor',
@@ -12,7 +13,7 @@ export class CredorComponent implements OnInit {
   listaCredores!: Credor[];
   entidade: string = "credores";
 
-  constructor() { }
+  constructor(private credorService: CredorService) { }
 
   ngOnInit(): void {
     this.credor = new Credor('', '', 0);
@@ -22,8 +23,10 @@ export class CredorComponent implements OnInit {
 
   onSubmit() {
     this.credor.id = this.getListCredores().length + 1;
-    this.saveCredor(this.credor);
-    this.listaCredores = this.getListCredores();
+    this.credorService.salvar(this.credor);
+    this.listaCredores = this.credorService.lista();
+    //this.saveCredor(this.credor);
+    //this.listaCredores = this.getListCredores();
   }
 
   saveCredor(credor: Credor) {
