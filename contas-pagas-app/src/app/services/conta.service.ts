@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { DataStorage } from '../util/DataStorage';
-import { Conta } from './../model/conta';
+import { Conta } from '../model/conta';
 
 @Injectable({
   providedIn: 'root',

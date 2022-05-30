@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Credor } from '../model/credor';
 import { DataStorage } from '../util/DataStorage';
-import { CredorService } from './../services/CredorService';
+import { CredorService } from '../services/credor.service';
+import { ApiService } from './../services/api.service';
 
 @Component({
   selector: 'app-credor',
@@ -12,36 +13,48 @@ export class CredorComponent implements OnInit {
   credor!: Credor;
   listaCredores!: Credor[];
   entidade: string = "credores";
+  sourceDataWS: boolean = false;
+  messageData: string = '';
 
-  constructor(private credorService: CredorService) { }
+  constructor(private credorService: CredorService, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.credor = new Credor('', '', 0);
     DataStorage.initDataStorage(this.entidade);
-    this.listaCredores = this.getListCredores();
+
+    this.getListCredores();
   }
 
   onSubmit() {
-    this.credor.id = this.getListCredores().length + 1;
-    this.credorService.salvar(this.credor);
-    this.listaCredores = this.credorService.lista();
-    //this.saveCredor(this.credor);
-    //this.listaCredores = this.getListCredores();
+    this.credor.id = this.listaCredores.length + 1;
+    this.saveCredor(this.credor);
   }
 
   saveCredor(credor: Credor) {
-    //salva no storage
-    this.listaCredores = DataStorage.getList(this.entidade);
-
-    //adiciona na lista
-    this.listaCredores.push(credor);
-
-    //salva no Data Storage
-    DataStorage.saveItem(this.entidade, this.listaCredores);
+    this.apiService
+      .saveItem(this.credor, this.entidade)
+      .then((ent) => {
+        alert('cadastrei o credor com a api corretamente...');
+        this.getListCredores();
+      })
+      .catch((er) => {
+        alert('erro ao cadastrar o credor... vou salvar no storage');
+        this.credorService.salvar(this.credor);
+        this.getListCredores();
+      });
   }
 
   getListCredores() {
-    this.listaCredores = DataStorage.getList(this.entidade);
-    return this.listaCredores;
+    this.apiService.getItems(this.entidade)
+      .then((lst) => {
+        this.listaCredores = lst as Credor[];
+        this.sourceDataWS = true;
+        this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+      })
+      .catch((er) => {
+        this.listaCredores = DataStorage.getList(this.entidade);
+        this.sourceDataWS = true;
+        this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+      });
   }
 }

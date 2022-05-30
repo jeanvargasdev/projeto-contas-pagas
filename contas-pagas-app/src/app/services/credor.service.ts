@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
-import { Credor } from './../model/credor';
-import { DataStorage } from './../util/DataStorage';
+import { Credor } from '../model/credor';
+import { DataStorage } from '../util/DataStorage';
 
 @Injectable({
   providedIn: 'root',

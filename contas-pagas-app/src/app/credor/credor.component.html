@@ -1,15 +1,12 @@
-
 <div class="container credor">
   <h1>Manutenção de Credores</h1>
   <h6>Entre com os dados do credor</h6>
   <hr />
   <div class="row">
     <div class="col s12">
-      <div
-        id="msg-login"
-        class="card-panel red white-text"
-        style="display: none"
-      ></div>
+      <div id="msg-origem-dados" class="card-panel blue white-text">
+        {{ this.messageData }}
+      </div>
     </div>
     <form
       class="col s12"
@@ -30,7 +27,8 @@
           />
           <label for="input-credor">Nome</label>
           <div class="red-text" [hidden]="t.valid || t.untouched">
-            O nome deve ser de apenas uma particula e com a letra inicial em maiuscula
+            O nome deve ser de apenas uma particula e com a letra inicial em
+            maiuscula
           </div>
         </div>
       </div>
@@ -95,12 +93,8 @@
   <div *ngIf="!listaCredores || listaCredores!.length == 0">
     <div class="row">
       <div class="center-align">
-        <span class="col s12 flow-text">
-          NENHUM CREDOR CADASTRADO "</span
-        >
+        <span class="col s12 flow-text"> NENHUM CREDOR CADASTRADO "</span>
       </div>
     </div>
   </div>
-
-
 </div>

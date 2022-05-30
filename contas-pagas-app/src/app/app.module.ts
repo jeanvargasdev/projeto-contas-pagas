@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { LancamentoComponent } from './lancamento/lancamento.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -28,7 +29,9 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
   imports: [NgxMaskModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    HttpClientModule,
+    FormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

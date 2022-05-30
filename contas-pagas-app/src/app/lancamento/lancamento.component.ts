@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Conta } from '../model/conta';
 import { Credor } from '../model/credor';
 import { Lancamento } from '../model/lancamento';
+import { ApiService } from '../services/api.service';
+import { ContaService } from '../services/Conta.service';
+import { CredorService } from '../services/credor.service';
 import { DataStorage } from '../util/DataStorage';
 
 @Component({
@@ -24,55 +27,94 @@ export class LancamentoComponent implements OnInit {
   idconta!: number;
   idcredor!: number;
   frmPagamento!: string;
+  sourceDataWS: boolean = false;
+  messageData: string = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private credorService: CredorService,
+    private contaService: ContaService, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.lancamento = new Lancamento(0, new Conta(0, ''), 0, new Date(), new Credor('', '', 0), '');
     DataStorage.initDataStorage(this.entidade);
-    this.listaLancamentos = this.getListLancamentos();
-    this.listaContas = this.getList('contas');
-    this.listaCredores = this.getList('credores');
-
-    // this.route.params.subscribe(param => {
-    //   console.log(param);
-    //   if (param['id'] === '1')
-    //     window.alert("Rota com o valor 1");
-
-    //   this.parametro = 'Valor do parametro da rota é : ' + param['id'];
-    // })
+    //this.getListLancamentos();
+    this.getList('lancamentos');
+    this.getList('contas');
+    this.getList('credores');
   }
 
   onSubmit() {
-    this.lancamento.id = this.getListLancamentos().length + 1;
+    this.lancamento.id = this.listaLancamentos.length + 1;
 
     if (this.lancamento.valor === 0) {
       alert("Valor precisa ser maior que zero");
       return;
     }
+
     this.saveLancamento(this.lancamento);
-    this.listaLancamentos = this.getListLancamentos();
   }
 
   saveLancamento(lancamento: Lancamento) {
-    //salva no storage
-    this.listaLancamentos = DataStorage.getList(this.entidade);
+    this.apiService
+      .saveItem(this.lancamento, this.entidade)
+      .then((ent) => {
+        alert('cadastrei o lancamento com a api corretamente...');
+        //this.getListLancamentos();
+        this.getList('lancamentos');
+      })
+      .catch((er) => {
+        alert('vou salvar o lançamento no storage....');
+        // //salva no storage
+        this.listaLancamentos = DataStorage.getList(this.entidade);
 
-    //adiciona na lista
-    this.listaLancamentos.push(lancamento);
+        //adiciona na lista
+        this.listaLancamentos.push(lancamento);
 
-    //salva no Data Storage
-    DataStorage.saveItem(this.entidade, this.listaLancamentos);
+        //salva no Data Storage
+        DataStorage.saveItem(this.entidade, this.listaLancamentos);
+        //this.getListLancamentos();
+        this.getList('lancamentos');
+      });
   }
 
-  getListLancamentos() {
-    this.listaLancamentos = DataStorage.getList(this.entidade);
-    return this.listaLancamentos;
-  }
+  // getListLancamentos() {
+  //   this.apiService.getItems(this.entidade)
+  //     .then((lst) => {
+  //       this.listaLancamentos = lst as Lancamento[];
+  //       this.sourceDataWS = true;
+  //       this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+  //     })
+  //     .catch((er) => {
+  //       this.listaLancamentos = DataStorage.getList(this.entidade);
+  //       this.sourceDataWS = true;
+  //       this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+  //     });
+  // }
 
-  //retorna uma lista já cadastrada no storage
+  //retorna uma lista já cadastrada no storage ou service
   getList(entidade: string) {
-    return DataStorage.getList(entidade);
+    this.apiService.getItems(entidade)
+      .then((lst) => {
+        if (entidade == 'contas')
+          this.listaContas = lst as Conta[];
+        else if (entidade == 'credores')
+          this.listaCredores = lst as Credor[];
+        else
+          this.listaLancamentos = lst as Lancamento[];
+
+        this.sourceDataWS = true;
+        this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+      })
+      .catch((er) => {
+        if (entidade == 'contas')
+          this.listaContas = DataStorage.getList(entidade);
+        else if (entidade == 'credores')
+          this.listaCredores = DataStorage.getList(entidade);
+        else
+          this.listaLancamentos = DataStorage.getList(entidade);
+
+        this.sourceDataWS = true;
+        this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+      });
   }
 
   onSelectChangeConta(event: Event) {

@@ -1,0 +1,6 @@
+{
+  "/contas": "/contas",
+  "/contas/:id": "/contas/:id",
+  "/credores": "/credor",
+  "/credores/:id": "/credor/:id"
+}

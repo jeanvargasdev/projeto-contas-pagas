@@ -1,7 +1,6 @@
 
 import { Injectable } from '@angular/core';
 import { DataStorage } from '../util/DataStorage';
-import { Conta } from '../model/conta';
 import { Lancamento } from '../model/lancamento';
 
 @Injectable({
