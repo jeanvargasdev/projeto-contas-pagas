@@ -81,7 +81,7 @@ export class LancamentoComponent implements OnInit {
       this.apiService
         .saveItem(this.lancamento, this.entidade)
         .then((ent) => {
-          alert('cadastrei o lancamento com a api corretamente...');
+          //alert('cadastrei o lancamento com a api corretamente...');
           //this.getListLancamentos();
           this.getList('lancamentos');
           this.LancamentoService.notifyTotal(this.listaLancamentos);

@@ -3,42 +3,12 @@
     {
       "nome": "Zaffari",
       "descricao": "Gasolina Ipanema",
-      "id": 3
-    },
-    {
-      "nome": "Colombo",
-      "descricao": "Lojas Colombo",
-      "id": 2
-    },
-    {
-      "nome": "Mercado",
-      "descricao": "Mercado Super Pan",
       "id": 1
     },
     {
-      "nome": "Posto",
-      "descricao": "Posto Ipanema",
-      "id": 4
-    },
-    {
-      "nome": "Condominio",
-      "descricao": "Ipanema Zona Sul",
-      "id": 5
-    },
-    {
-      "nome": "Gasolina",
-      "descricao": "Mercado Zaffari Ipanema",
-      "id": 6
-    },
-    {
-      "nome": "Gasolina",
-      "descricao": "Mercado Zaffari Ipanema",
-      "id": 7
-    },
-    {
-      "nome": "Sdd",
-      "descricao": "Mercado Zaffari Ipanema",
-      "id": 8
+      "nome": "Mercado",
+      "descricao": "Hipermercado de Ipanema",
+      "id": 2
     }
   ],
   "contas": [
@@ -49,30 +19,6 @@
     {
       "id": 2,
       "tipo": "Padaria"
-    },
-    {
-      "id": 3,
-      "tipo": "Posto"
-    },
-    {
-      "id": 4,
-      "tipo": "Farmacia"
-    },
-    {
-      "id": 5,
-      "tipo": "Gasolina"
-    },
-    {
-      "id": 6,
-      "tipo": "Gasolina"
-    },
-    {
-      "id": 7,
-      "tipo": "Gasolina"
-    },
-    {
-      "id": 8,
-      "tipo": "Putedo"
     }
   ],
   "lancamentos": [
@@ -94,15 +40,15 @@
     {
       "id": 2,
       "conta": {
-        "id": 1,
-        "tipo": "Mercado"
+        "id": 2,
+        "tipo": "Padaria"
       },
-      "valor": 250,
-      "dataLancamento": "2022-05-30T18:38:19.959Z",
+      "valor": 200,
+      "dataLancamento": "2022-05-26",
       "credor": {
         "nome": "Zaffari",
         "descricao": "Gasolina Ipanema",
-        "id": 3
+        "id": 1
       },
       "frmPagamento": ""
     },
@@ -112,117 +58,12 @@
         "id": 1,
         "tipo": "Mercado"
       },
-      "valor": 2500,
-      "dataLancamento": "2022-05-30T18:38:19.959Z",
+      "valor": 690,
+      "dataLancamento": "2022-05-31T20:28:42.771Z",
       "credor": {
         "nome": "Zaffari",
         "descricao": "Gasolina Ipanema",
-        "id": 3
-      },
-      "frmPagamento": "Cartão Crédito Nubanck"
-    },
-    {
-      "id": 4,
-      "conta": {
-        "id": 1,
-        "tipo": "Mercado"
-      },
-      "valor": 1000,
-      "dataLancamento": "2022-05-30T19:07:57.641Z",
-      "credor": {
-        "nome": "Zaffari",
-        "descricao": "Gasolina Ipanema",
-        "id": 3
-      },
-      "frmPagamento": ""
-    },
-    {
-      "id": 5,
-      "conta": {
-        "id": 1,
-        "tipo": "Mercado"
-      },
-      "valor": 1000,
-      "dataLancamento": "2022-05-30T19:07:57.641Z",
-      "credor": {
-        "nome": "Zaffari",
-        "descricao": "Gasolina Ipanema",
-        "id": 3
-      },
-      "frmPagamento": "Cartão Débito Santander"
-    },
-    {
-      "id": 6,
-      "conta": {
-        "id": 2,
-        "tipo": "Padaria"
-      },
-      "valor": 200,
-      "dataLancamento": "2022-05-31T17:01:36.465Z",
-      "credor": {
-        "nome": "Zaffari",
-        "descricao": "Gasolina Ipanema",
-        "id": 3
-      },
-      "frmPagamento": ""
-    },
-    {
-      "id": 7,
-      "conta": {
-        "id": 1,
-        "tipo": "Mercado"
-      },
-      "valor": 1000,
-      "dataLancamento": "2022-05-31T19:21:51.497Z",
-      "credor": {
-        "nome": "Mercado",
-        "descricao": "Mercado Super Pan",
         "id": 1
-      },
-      "frmPagamento": ""
-    },
-    {
-      "id": 8,
-      "conta": {
-        "id": 1,
-        "tipo": "Mercado"
-      },
-      "valor": 1000,
-      "dataLancamento": "2022-05-31T19:21:51.497Z",
-      "credor": {
-        "nome": "Mercado",
-        "descricao": "Mercado Super Pan",
-        "id": 1
-      },
-      "frmPagamento": ""
-    },
-    {
-      "id": 9,
-      "conta": {
-        "id": 1,
-        "tipo": "Mercado"
-      },
-      "valor": 600,
-      "dataLancamento": "2022-05-31T20:17:19.033Z",
-      "credor": {
-        "nome": "Zaffari",
-        "descricao": "Gasolina Ipanema",
-        "id": 3
-      },
-      "frmPagamento": ""
-    },
-    {
-      "id": 10,
-      "conta": {
-        "id": 2,
-        "tipo": "Padaria"
-      },
-      "valor": 3,
-      "dataLancamento": "2022-05-31T20:21:32.132Z",
-      "credor": {
-        "nome": "Zaffari",
-        "descricao": "Gasolina Ipanema",
-        "id": 3
       },
       "frmPagamento": ""
     }
