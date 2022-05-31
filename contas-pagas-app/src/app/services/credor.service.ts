@@ -18,7 +18,6 @@ export class CredorService {
     this.credores = this.lista();
     this.credores.push(credor);
     DataStorage.saveItem(this.classe, this.credores);
-    console.log(this.credores);
   }
 
   lista(): Credor[] {

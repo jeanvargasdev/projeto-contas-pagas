@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import * as M from 'materialize-css';
+import { Conta } from './model/conta';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('mobile') sideNavebar?: ElementRef;
   title = 'App Contas Pagas';
 
-  ngAfterViewInit(): void {
+   ngAfterViewInit(): void {
     M.Sidenav.init(this.sideNavebar?.nativeElement);
   }
 }

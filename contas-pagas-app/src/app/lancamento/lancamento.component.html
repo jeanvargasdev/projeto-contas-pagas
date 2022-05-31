@@ -4,9 +4,17 @@
   <hr />
   <div class="row" >
   <div class="col s12">
-      <div id="msg-origem-dados" class="card-panel blue white-text" *ngIf="this.sourceDataWS">
-        {{ this.messageData }}
-      </div>
+      <div id="msg-origem-dados" class="card-panel blue white-text col 8" >
+        <p>
+          <b>{{ this.messageData }}</b>
+        </p>
+        <p style="font-size: x-large;">
+          <i>TOTAL EM  VALORES: {{ this.totalValorLancamento | currency : "R$" }}</i>
+        </p>
+
+    </div>
+
+  <div class="col s12">
     </div>
     </div>
 
@@ -138,11 +146,11 @@
       <tbody>
         <tr *ngFor="let c of listaLancamentos">
           <td>{{ c.id }}</td>
-          <td>{{ c.conta.tipo }}</td>
-          <td>{{ c.credor.nome }}</td>
-          <td>{{ c.valor | currency: "BRL" }}</td>
-          <td>{{ c.dataLancamento | date: "dd/MM/yyyy" }}</td>
-          <td>{{ c.frmPagamento }}</td>
+          <td>{{ c.conta.tipo | lowercase}}</td>
+          <td>{{ c.credor.nome | uppercase}}</td>
+          <td>{{ c.valor | currency: "BRL":'$' }}</td>
+          <td>{{ c.dataLancamento | date: "dd/MM/yyyy h:mm" }}</td>
+          <td>{{ c.frmPagamento | titlecase}}</td>
         </tr>
       </tbody>
     </table>

@@ -21,7 +21,7 @@ export class ContaComponent implements OnInit {
   ngOnInit(): void {
     this.conta = new Conta(0, '');
     DataStorage.initDataStorage(this.entidade);
-    this.getListContas();
+    this.getListContasService();
   }
 
   onSubmit() {
@@ -30,20 +30,21 @@ export class ContaComponent implements OnInit {
   }
 
   saveConta(conta: Conta) {
-    this.apiService
-      .saveItem(this.conta, this.entidade)
-      .then((ent) => {
-        alert('cadastrei a conta na api corretamente...');
-        this.getListContas();
-      })
-      .catch((er) => {
-        alert('erro ao cadastrar a conta... vou salvar no storage');
+    if (this.sourceDataWS) {
+      this.apiService
+        .saveItem(this.conta, this.entidade)
+        .then((ent) => {
+          //alert('cadastrei a conta na api corretamente...');
+          this.getListContas();
+        });
+    }
+    else {
         this.contaService.salvar(this.conta);
         this.getListContas();
-      });
+    }
   }
 
-  getListContas() {
+  getListContasService() {
     this.apiService.getItems(this.entidade)
       .then((lst) => {
         this.listaContas = lst as Conta[];
@@ -51,9 +52,17 @@ export class ContaComponent implements OnInit {
         this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
       })
       .catch((er) => {
-        this.listaContas = DataStorage.getList(this.entidade);
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+        this.sourceDataWS = false;
+        this.getListContas();
       });
+  };
+
+  getListContas() {
+    if (this.sourceDataWS)
+      this.getListContasService();
+    else {
+      this.listaContas = DataStorage.getList(this.entidade);
+      this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+    }
   }
 }

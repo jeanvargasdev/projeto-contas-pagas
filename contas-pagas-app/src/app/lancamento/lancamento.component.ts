@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Conta } from '../model/conta';
 import { Credor } from '../model/credor';
 import { Lancamento } from '../model/lancamento';
@@ -7,6 +8,7 @@ import { ApiService } from '../services/api.service';
 import { ContaService } from '../services/Conta.service';
 import { CredorService } from '../services/credor.service';
 import { DataStorage } from '../util/DataStorage';
+import { LancamentoService } from './../services/lancamento.service ';
 
 @Component({
   selector: 'app-lancamento',
@@ -29,17 +31,38 @@ export class LancamentoComponent implements OnInit {
   frmPagamento!: string;
   sourceDataWS: boolean = false;
   messageData: string = '';
+  totalValorLancamento: number = 0;
+  i: number = 0;
+  subscription: Subscription;
 
   constructor(private route: ActivatedRoute, private credorService: CredorService,
-    private contaService: ContaService, private apiService: ApiService) { }
+    private contaService: ContaService, private apiService: ApiService, private LancamentoService: LancamentoService) {
+
+    this.subscription = this.LancamentoService.asObservable().subscribe(
+      (data) => {
+        this.totalValorLancamento = data;
+      },
+      (error) => {
+        alert("Erro ao atualizaro totalizador de valores para lançamentos")
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.lancamento = new Lancamento(0, new Conta(0, ''), 0, new Date(), new Credor('', '', 0), '');
     DataStorage.initDataStorage(this.entidade);
     //this.getListLancamentos();
-    this.getList('lancamentos');
-    this.getList('contas');
-    this.getList('credores');
+    this.i = 0;
+    // this.getList('lancamentos');
+    // this.getList('contas');
+    // this.getList('credores');
+
+    this.getListService('lancamentos');
+    this.getListService('contas');
+    this.getListService('credores');
+
+
+    this.totalValorLancamento = this.LancamentoService.getTotalValorLancamento(this.listaLancamentos);
   }
 
   onSubmit() {
@@ -54,67 +77,74 @@ export class LancamentoComponent implements OnInit {
   }
 
   saveLancamento(lancamento: Lancamento) {
-    this.apiService
-      .saveItem(this.lancamento, this.entidade)
-      .then((ent) => {
-        alert('cadastrei o lancamento com a api corretamente...');
-        //this.getListLancamentos();
-        this.getList('lancamentos');
-      })
-      .catch((er) => {
-        alert('vou salvar o lançamento no storage....');
-        // //salva no storage
-        this.listaLancamentos = DataStorage.getList(this.entidade);
+    if (this.sourceDataWS) {
+      this.apiService
+        .saveItem(this.lancamento, this.entidade)
+        .then((ent) => {
+          alert('cadastrei o lancamento com a api corretamente...');
+          //this.getListLancamentos();
+          this.getList('lancamentos');
+          this.LancamentoService.notifyTotal(this.listaLancamentos);
+        });
+    } else {
+      // //salva no storage
+      this.listaLancamentos = DataStorage.getList(this.entidade);
 
-        //adiciona na lista
-        this.listaLancamentos.push(lancamento);
+      //adiciona na lista
+      this.listaLancamentos.push(lancamento);
 
-        //salva no Data Storage
-        DataStorage.saveItem(this.entidade, this.listaLancamentos);
-        //this.getListLancamentos();
-        this.getList('lancamentos');
-      });
+      //salva no Data Storage
+      DataStorage.saveItem(this.entidade, this.listaLancamentos);
+      //this.getListLancamentos();
+      this.getList('lancamentos');
+
+      this.LancamentoService.notifyTotal(this.listaLancamentos);
+    };
   }
 
-  // getListLancamentos() {
-  //   this.apiService.getItems(this.entidade)
-  //     .then((lst) => {
-  //       this.listaLancamentos = lst as Lancamento[];
-  //       this.sourceDataWS = true;
-  //       this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-  //     })
-  //     .catch((er) => {
-  //       this.listaLancamentos = DataStorage.getList(this.entidade);
-  //       this.sourceDataWS = true;
-  //       this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
-  //     });
-  // }
+  getListService(entidade: string) {
+    if (this.i == 0) {
+      this.apiService.getItems(entidade)
+        .then((lst) => {
+          if (entidade == 'contas')
+            this.listaContas = lst as Conta[];
+          else if (entidade == 'credores')
+            this.listaCredores = lst as Credor[];
+          else
+            this.listaLancamentos = lst as Lancamento[];
+
+          this.sourceDataWS = true;
+
+          this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+          this.LancamentoService.notifyTotal(this.listaLancamentos);
+        }).catch((er) => {
+          this.sourceDataWS = false;
+          this.i = 1;
+          this.getList(entidade);
+        });
+    } else {
+      this.sourceDataWS = false;
+      this.i = 1;
+      this.getList(entidade);
+    }
+  }
+
 
   //retorna uma lista já cadastrada no storage ou service
   getList(entidade: string) {
-    this.apiService.getItems(entidade)
-      .then((lst) => {
-        if (entidade == 'contas')
-          this.listaContas = lst as Conta[];
-        else if (entidade == 'credores')
-          this.listaCredores = lst as Credor[];
-        else
-          this.listaLancamentos = lst as Lancamento[];
+    if (this.sourceDataWS)
+      this.getListService(entidade);
+    else {
+      if (entidade == 'contas')
+        this.listaContas = DataStorage.getList(entidade);
+      else if (entidade == 'credores')
+        this.listaCredores = DataStorage.getList(entidade);
+      else
+        this.listaLancamentos = DataStorage.getList(entidade);
 
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-      })
-      .catch((er) => {
-        if (entidade == 'contas')
-          this.listaContas = DataStorage.getList(entidade);
-        else if (entidade == 'credores')
-          this.listaCredores = DataStorage.getList(entidade);
-        else
-          this.listaLancamentos = DataStorage.getList(entidade);
-
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
-      });
+      this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+      this.LancamentoService.notifyTotal(this.listaLancamentos);
+    };
   }
 
   onSelectChangeConta(event: Event) {
@@ -124,7 +154,6 @@ export class LancamentoComponent implements OnInit {
     });
 
     this.conta = cc as Conta;
-    console.log('conta: ', this.conta);
     this.lancamento.conta = this.conta;
   }
 
@@ -135,7 +164,6 @@ export class LancamentoComponent implements OnInit {
     });
 
     this.credor = cc as Credor;
-    console.log('credor: ', this.credor);
     this.lancamento.credor = this.credor;
   }
 
@@ -149,7 +177,6 @@ export class LancamentoComponent implements OnInit {
       case 4: this.frmPagamento = 'Cartão Débito Santander'; break;
       case 5: this.frmPagamento = 'PIX'; break;
     }
-    console.log('forma pagar: ', this.frmPagamento);
     this.lancamento.frmPagamento = this.frmPagamento;
   }
 }

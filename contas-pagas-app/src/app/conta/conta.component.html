@@ -7,7 +7,7 @@
       <div
         id="msg-origem-dados"
         class="card-panel blue white-text"
-        *ngIf="this.sourceDataWS"
+        
       >
         {{ this.messageData }}
       </div>
@@ -70,7 +70,7 @@
     <tbody>
       <tr *ngFor="let c of listaContas">
         <td>{{ c.id }}</td>
-        <td>{{ c.tipo }}</td>
+        <td>{{ c.tipo | uppercase}}</td>
       </tr>
     </tbody>
   </table>

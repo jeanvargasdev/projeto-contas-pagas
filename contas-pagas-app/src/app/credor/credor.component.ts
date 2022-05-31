@@ -14,6 +14,7 @@ export class CredorComponent implements OnInit {
   listaCredores!: Credor[];
   entidade: string = "credores";
   sourceDataWS: boolean = false;
+  jaEntrouDataWS: boolean = false;
   messageData: string = '';
 
   constructor(private credorService: CredorService, private apiService: ApiService) { }
@@ -22,7 +23,7 @@ export class CredorComponent implements OnInit {
     this.credor = new Credor('', '', 0);
     DataStorage.initDataStorage(this.entidade);
 
-    this.getListCredores();
+    this.getListCredoresService();
   }
 
   onSubmit() {
@@ -31,30 +32,39 @@ export class CredorComponent implements OnInit {
   }
 
   saveCredor(credor: Credor) {
-    this.apiService
-      .saveItem(this.credor, this.entidade)
-      .then((ent) => {
-        alert('cadastrei o credor com a api corretamente...');
-        this.getListCredores();
-      })
-      .catch((er) => {
-        alert('erro ao cadastrar o credor... vou salvar no storage');
-        this.credorService.salvar(this.credor);
-        this.getListCredores();
-      });
+    if (this.sourceDataWS) {
+      this.apiService
+        .saveItem(this.credor, this.entidade)
+        .then((ent) => {
+          alert('cadastrei o credor com a api corretamente...');
+          this.getListCredores();
+        });
+    }
+    else {
+      //alert('erro ao cadastrar o credor... vou salvar no storage');
+      this.credorService.salvar(this.credor);
+      this.getListCredores();
+    };
   }
 
   getListCredores() {
+    if (this.sourceDataWS)
+      this.getListCredoresService();
+    else {
+      this.listaCredores = DataStorage.getList(this.entidade);
+      this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+    }
+  }
+
+  getListCredoresService() {
     this.apiService.getItems(this.entidade)
       .then((lst) => {
         this.listaCredores = lst as Credor[];
         this.sourceDataWS = true;
         this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-      })
-      .catch((er) => {
-        this.listaCredores = DataStorage.getList(this.entidade);
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+      }).catch((er) => {
+        this.sourceDataWS = false;
+        this.getListCredores()
       });
   }
 }
