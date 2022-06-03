@@ -31,30 +31,59 @@ export class ContaComponent implements OnInit {
 
   saveConta(conta: Conta) {
     if (this.sourceDataWS) {
-      this.apiService
-        .saveItem(this.conta, this.entidade)
-        .then((ent) => {
-          //alert('cadastrei a conta na api corretamente...');
-          this.getListContas();
-        });
+      this.apiService.saveItemObs(this.conta, this.entidade).subscribe(v => {
+        alert('cadastrei a conta com a api corretamente com observable...');
+        this.getListContas();
+      });
     }
     else {
-        this.contaService.salvar(this.conta);
-        this.getListContas();
-    }
+      //alert('erro ao cadastrar o credor... vou salvar no storage');
+      this.contaService.salvar(this.conta);
+      this.getListContas();
+    };
+
+
+    // if (this.sourceDataWS) {
+    //   this.apiService
+    //     .saveItem(this.conta, this.entidade)
+    //     .then((ent) => {
+    //       //alert('cadastrei a conta na api corretamente...');
+    //       this.getListContas();
+    //     });
+    // }
+    // else {
+    //   this.contaService.salvar(this.conta);
+    //   this.getListContas();
+    // }
   }
 
   getListContasService() {
-    this.apiService.getItems(this.entidade)
-      .then((lst) => {
-        this.listaContas = lst as Conta[];
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-      })
-      .catch((er) => {
-        this.sourceDataWS = false;
-        this.getListContas();
+    this.apiService.getItemsObs(this.entidade).subscribe(response => {
+      this.listaContas = response.map(item => {
+        return new Conta(
+          item.id,
+          item.tipo
+        );
       });
+      this.sourceDataWS = true;
+      this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+    });
+
+    if (this.sourceDataWS != true) {
+      this.sourceDataWS = false;
+      this.getListContas();
+    }
+
+    // this.apiService.getItems(this.entidade)
+    //   .then((lst) => {
+    //     this.listaContas = lst as Conta[];
+    //     this.sourceDataWS = true;
+    //     this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+    //   })
+    //   .catch((er) => {
+    //     this.sourceDataWS = false;
+    //     this.getListContas();
+    //   });
   };
 
   getListContas() {

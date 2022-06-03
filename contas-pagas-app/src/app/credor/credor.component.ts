@@ -3,6 +3,7 @@ import { Credor } from '../model/credor';
 import { DataStorage } from '../util/DataStorage';
 import { CredorService } from '../services/credor.service';
 import { ApiService } from './../services/api.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-credor',
@@ -33,18 +34,31 @@ export class CredorComponent implements OnInit {
 
   saveCredor(credor: Credor) {
     if (this.sourceDataWS) {
-      this.apiService
-        .saveItem(this.credor, this.entidade)
-        .then((ent) => {
-          alert('cadastrei o credor com a api corretamente...');
-          this.getListCredores();
-        });
+      this.apiService.saveItemObs(this.credor, this.entidade).subscribe(v => {
+        alert('cadastrei o credor com a api corretamente com observable...');
+        this.getListCredores();
+      });
     }
     else {
       //alert('erro ao cadastrar o credor... vou salvar no storage');
       this.credorService.salvar(this.credor);
       this.getListCredores();
     };
+
+
+    // if (this.sourceDataWS) {
+    //   this.apiService
+    //     .saveItem(this.credor, this.entidade)
+    //     .then((ent) => {
+    //       alert('cadastrei o credor com a api corretamente...');
+    //       this.getListCredores();
+    //     });
+    // }
+    // else {
+    //   //alert('erro ao cadastrar o credor... vou salvar no storage');
+    //   this.credorService.salvar(this.credor);
+    //   this.getListCredores();
+    // };
   }
 
   getListCredores() {
@@ -57,14 +71,34 @@ export class CredorComponent implements OnInit {
   }
 
   getListCredoresService() {
-    this.apiService.getItems(this.entidade)
-      .then((lst) => {
-        this.listaCredores = lst as Credor[];
-        this.sourceDataWS = true;
-        this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-      }).catch((er) => {
-        this.sourceDataWS = false;
-        this.getListCredores()
+
+    this.apiService.getItemsObs(this.entidade).subscribe(response => {
+      this.listaCredores = response.map(item => {
+        return new Credor(
+          item.nome,
+          item.descricao,
+          item.id
+        );
       });
+      this.sourceDataWS = true;
+      this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+    });
+
+    if (this.sourceDataWS != true) {
+      this.sourceDataWS = false;
+      this.getListCredores();
+    }
+
   }
+
+  // this.apiService.getItems(this.entidade)
+  //   .then((lst) => {
+  //     this.listaCredores = lst as Credor[];
+  //     this.sourceDataWS = true;
+  //     this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
+  //   }).catch((er) => {
+  //     this.sourceDataWS = false;
+  //     this.getListCredores()
+  //   });
 }
+

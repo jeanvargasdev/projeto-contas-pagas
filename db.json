@@ -1,0 +1,71 @@
+{
+  "credores": [
+    {
+      "nome": "Zaffari",
+      "descricao": "Gasolina Ipanema",
+      "id": 1
+    },
+    {
+      "nome": "Mercado",
+      "descricao": "Hipermercado de Ipanema",
+      "id": 2
+    }
+  ],
+  "contas": [
+    {
+      "id": 1,
+      "tipo": "Mercado"
+    },
+    {
+      "id": 2,
+      "tipo": "Padaria"
+    }
+  ],
+  "lancamentos": [
+    {
+      "id": 1,
+      "conta": {
+        "id": 1,
+        "tipo": "Padaria"
+      },
+      "valor": 100,
+      "dataLancamento": "2022-05-30T16:59:35.608Z",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Mercado Zaffari Ipanema",
+        "id": 1
+      },
+      "frmPagamento": ""
+    },
+    {
+      "id": 2,
+      "conta": {
+        "id": 2,
+        "tipo": "Padaria"
+      },
+      "valor": 200,
+      "dataLancamento": "2022-05-26",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Gasolina Ipanema",
+        "id": 1
+      },
+      "frmPagamento": ""
+    },
+    {
+      "id": 3,
+      "conta": {
+        "id": 1,
+        "tipo": "Mercado"
+      },
+      "valor": 690,
+      "dataLancamento": "2022-05-31T20:28:42.771Z",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Gasolina Ipanema",
+        "id": 1
+      },
+      "frmPagamento": ""
+    }
+  ]
+}

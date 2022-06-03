@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Conta } from '../model/conta';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Credor } from '../model/credor';
-import { Observable } from 'rxjs';
+import { from, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -31,5 +32,18 @@ export class ApiService {
 
   getItems(entidade: string): Promise<void|any[]> {
     return this.httpClient.get<any[]>(this.URL.concat(entidade)).toPromise();
+  }
+
+  getItemsObs(entidade: string): Observable<any[]>{
+    return this.httpClient.get<any[]>(this.URL.concat(entidade));
+  }
+
+  saveItemObs(classe: any, entidade: string): Observable<any> {
+    return this.httpClient
+      .post<any>(
+        this.URL.concat(entidade),
+        JSON.stringify(classe),
+        this.httpOptions
+      );
   }
 }
