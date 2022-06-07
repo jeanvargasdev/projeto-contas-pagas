@@ -8,6 +8,7 @@
     "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "postinstall": "ng build --aot --prod",
     "json:server": "json-server --watch db.json",
     "json:server:routes": "json-server --watch db.json --routes routes.json"
     
