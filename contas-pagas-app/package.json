@@ -8,8 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "json:server": "json-server --watch db.json",
-    "json:server:routes": "json-server --watch db.json --routes routes.json",
-    "heroku-postbuild": "ng build --prod"
+    "json:server:routes": "json-server --watch db.json --routes routes.json"
   },
   "engines": {
     "node": "14.16.1",
