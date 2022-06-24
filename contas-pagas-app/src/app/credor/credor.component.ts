@@ -91,6 +91,10 @@ export class CredorComponent implements OnInit {
 
   }
 
+  editCredor(credor: Credor) {
+    alert('ok:' + credor.nome);
+  }
+
   // this.apiService.getItems(this.entidade)
   //   .then((lst) => {
   //     this.listaCredores = lst as Credor[];
