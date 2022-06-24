@@ -88,7 +88,10 @@ export class CredorComponent implements OnInit {
       this.sourceDataWS = false;
       this.getListCredores();
     }
+  }
 
+  editCredor(credor: Credor) {
+    alert('ok:' + credor.nome);
   }
 
   // this.apiService.getItems(this.entidade)
