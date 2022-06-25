@@ -46,5 +46,19 @@ export class LancamentoService {
   asObservable(): Observable<number> {
     return this.totalizador;
   }
+
+  remover(lancamento: Lancamento) {
+    this.lancamentos = this.lista();
+    this.lancamentos = this.lancamentos.filter((lanc) => {
+      return lanc.id.valueOf() != lancamento.id.valueOf();
+    });
+    DataStorage.saveItem(this.classe, this.lancamentos);
+  }
+
+  atualizar(lancamento: Lancamento) {
+    this.lancamentos = this.lista();
+    this.remover(lancamento);
+    this.salvar(lancamento);
+  }
 }
 

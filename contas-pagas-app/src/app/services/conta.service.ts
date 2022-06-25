@@ -25,5 +25,19 @@ export class ContaService {
     this.contas = DataStorage.getList(this.classe);
     return this.contas;
   }
+
+  remover(conta: Conta) {
+    this.contas = this.lista();
+    this.contas = this.contas.filter((con) => {
+      return con.id.valueOf() != conta.id.valueOf();
+    });
+    DataStorage.saveItem(this.classe, this.contas);
+  }
+
+  atualizar(conta: Conta) {
+    this.contas = this.lista();
+    this.remover(conta);
+    this.salvar(conta);
+  }
 }
 
