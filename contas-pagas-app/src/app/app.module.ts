@@ -13,6 +13,9 @@ import { LancamentoComponent } from './lancamento/lancamento.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 
 
 @NgModule({
@@ -24,16 +27,18 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     InicialComponent,
     LancamentoComponent,
-    SobreComponent
+    SobreComponent,
   ],
   imports: [NgxMaskModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
-  providers: [],
+  
+  providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }, { provide: MatDialogRef, useValue: {} }, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

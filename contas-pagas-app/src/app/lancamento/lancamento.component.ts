@@ -9,6 +9,7 @@ import { ContaService } from '../services/Conta.service';
 import { CredorService } from '../services/credor.service';
 import { DataStorage } from '../util/DataStorage';
 import { LancamentoService } from './../services/lancamento.service ';
+import { Util } from '../util/util';
 
 @Component({
   selector: 'app-lancamento',
@@ -34,6 +35,7 @@ export class LancamentoComponent implements OnInit {
   totalValorLancamento: number = 0;
   i: number = 0;
   subscription: Subscription;
+  isEdicao: boolean = false;
 
   constructor(private route: ActivatedRoute, private credorService: CredorService,
     private contaService: ContaService, private apiService: ApiService, private LancamentoService: LancamentoService) {
@@ -48,25 +50,23 @@ export class LancamentoComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
+  novoLancamento() {
     this.lancamento = new Lancamento(0, new Conta(0, ''), 0, new Date(), new Credor('', '', 0), '');
-    DataStorage.initDataStorage(this.entidade);
-    //this.getListLancamentos();
-    this.i = 0;
-    // this.getList('lancamentos');
-    // this.getList('contas');
-    // this.getList('credores');
+  }
 
+  ngOnInit(): void {
+    this.novoLancamento();
+    DataStorage.initDataStorage(this.entidade);
+    this.i = 0;
     this.getListService('lancamentos');
     this.getListService('contas');
     this.getListService('credores');
-
-
     this.totalValorLancamento = this.LancamentoService.getTotalValorLancamento(this.listaLancamentos);
   }
 
   onSubmit() {
-    this.lancamento.id = this.listaLancamentos.length + 1;
+    if (!this.isEdicao && !this.sourceDataWS)
+      this.lancamento.id = Util.retornaId(this.listaLancamentos) + 1;
 
     if (this.lancamento.valor === 0) {
       alert("Valor precisa ser maior que zero");
@@ -78,28 +78,45 @@ export class LancamentoComponent implements OnInit {
 
   saveLancamento(lancamento: Lancamento) {
     if (this.sourceDataWS) {
-      this.apiService
-        .saveItem(this.lancamento, this.entidade)
-        .then((ent) => {
-          //alert('cadastrei o lancamento com a api corretamente...');
-          //this.getListLancamentos();
+      if (!this.isEdicao) {
+        this.apiService
+          .saveItem(this.lancamento, this.entidade)
+          .then((ent) => {
+            //alert('cadastrei o lancamento com a api corretamente...');
+            //this.getListLancamentos();
+            this.getList('lancamentos');
+            this.LancamentoService.notifyTotal(this.listaLancamentos);
+          });
+      } else {
+        this.apiService.updateItemObs(this.lancamento, this.entidade).subscribe(v => {
+          v.id = lancamento.id;
+          alert('atualizei o credor com a api corretamente com observable...');
           this.getList('lancamentos');
-          this.LancamentoService.notifyTotal(this.listaLancamentos);
         });
+      }
     } else {
-      // //salva no storage
-      this.listaLancamentos = DataStorage.getList(this.entidade);
+      if (this.isEdicao) {
+        this.LancamentoService.atualizar(this.lancamento);
+        this.LancamentoService.notifyTotal(this.listaLancamentos);
+      }
+      else {
+        // //salva no storage
+        this.listaLancamentos = DataStorage.getList(this.entidade);
 
-      //adiciona na lista
-      this.listaLancamentos.push(lancamento);
+        //adiciona na lista
+        this.listaLancamentos.push(lancamento);
 
-      //salva no Data Storage
-      DataStorage.saveItem(this.entidade, this.listaLancamentos);
-      //this.getListLancamentos();
-      this.getList('lancamentos');
+        //salva no Data Storage
+        DataStorage.saveItem(this.entidade, this.listaLancamentos);
+        //this.getListLancamentos();
+        this.getList('lancamentos');
 
-      this.LancamentoService.notifyTotal(this.listaLancamentos);
-    };
+        this.LancamentoService.notifyTotal(this.listaLancamentos);
+      };
+    }
+
+    this.isEdicao = false;
+    //this.novoLancamento();
   }
 
   getListService(entidade: string) {
@@ -178,5 +195,30 @@ export class LancamentoComponent implements OnInit {
       case 5: this.frmPagamento = 'PIX'; break;
     }
     this.lancamento.frmPagamento = this.frmPagamento;
+  }
+
+  editLancamento(lancamento: Lancamento) {
+    let vCloneLancamento = Util.clonar(lancamento, this.entidade);
+    this.credor = vCloneLancamento;
+    //this.isEdicao = true;
+  }
+
+  removeLancamento(lancamento: Lancamento) {
+    let result = Util.confirmar(lancamento);
+
+    if (result) {
+      if (!this.sourceDataWS) {
+        this.LancamentoService.remover(lancamento);
+        this.getList('lancamentos');
+      }
+      else {
+        this.apiService.removeItemObs(lancamento, this.entidade).subscribe(response => {
+          this.listaLancamentos = this.listaLancamentos.filter(item => {
+            item.id !== lancamento.id;
+          });
+          this.getList('lancamentos');
+        });
+      }
+    }
   }
 }

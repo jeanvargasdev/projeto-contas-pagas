@@ -22,3 +22,4 @@ projeto-contas-pagas
 - [x] Usar a diretiva ngIf
 - [x] Fazer requisições a API com tratamento da resposta com Promises ou Observables.
 - [x] Cadastrar uma entidade no JSON Server.
+- [x] CRUD Completo Para o Projeto Final

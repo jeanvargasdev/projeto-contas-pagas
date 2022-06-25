@@ -1,15 +1,23 @@
 {
   "credores": [
     {
-      "nome": "Mercado",
-      "descricao": "Hipermercado de Ipanema",
-      "id": 1
+      "nome": "Zaffari",
+      "descricao": "Zaffari de Ipanema",
+      "id": 2
     }
   ],
   "contas": [
     {
       "id": 1,
       "tipo": "Mercado"
+    },
+    {
+      "id": 2,
+      "tipo": "Lazer"
+    },
+    {
+      "id": 3,
+      "tipo": "Passeio"
     }
   ],
   "lancamentos": [
@@ -17,16 +25,61 @@
       "id": 1,
       "conta": {
         "id": 1,
-        "tipo": "Padaria"
+        "tipo": "Mercado"
       },
-      "valor": 100,
-      "dataLancamento": "2022-05-30T16:59:35.608Z",
+      "valor": 43,
+      "dataLancamento": "2022-06-24T22:37:04.234Z",
       "credor": {
         "nome": "Zaffari",
-        "descricao": "Mercado Zaffari Ipanema",
-        "id": 1
+        "descricao": "Zaffari de Ipanema",
+        "id": 2
       },
       "frmPagamento": ""
+    },
+    {
+      "id": 2,
+      "conta": {
+        "id": 1,
+        "tipo": "Mercado"
+      },
+      "valor": 55,
+      "dataLancamento": "2022-06-24T22:44:55.952Z",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Zaffari de Ipanema",
+        "id": 2
+      },
+      "frmPagamento": "Cartão Crédito Nubanck"
+    },
+    {
+      "id": 3,
+      "conta": {
+        "id": 1,
+        "tipo": "Mercado"
+      },
+      "valor": 55,
+      "dataLancamento": "2022-06-29",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Zaffari de Ipanema",
+        "id": 2
+      },
+      "frmPagamento": "Cartão Crédito Nubanck"
+    },
+    {
+      "id": 4,
+      "conta": {
+        "id": 1,
+        "tipo": "Mercado"
+      },
+      "valor": 666,
+      "dataLancamento": "2022-06-24T22:48:06.271Z",
+      "credor": {
+        "nome": "Zaffari",
+        "descricao": "Zaffari de Ipanema",
+        "id": 2
+      },
+      "frmPagamento": "Cartão Crédito Nubanck"
     }
   ]
 }

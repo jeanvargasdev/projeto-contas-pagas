@@ -24,5 +24,19 @@ export class CredorService {
     this.credores = DataStorage.getList(this.classe);
     return this.credores;
   }
+
+  remover(credor: Credor) {
+    this.credores = this.lista();
+    this.credores = this.credores.filter((cred) => {
+      return cred.id.valueOf() != credor.id.valueOf();
+    });
+    DataStorage.saveItem(this.classe, this.credores);
+  }
+
+  atualizar(credor: Credor) {
+    this.credores = this.lista();
+    this.remover(credor);
+    this.salvar(credor);
+  }
 }
 

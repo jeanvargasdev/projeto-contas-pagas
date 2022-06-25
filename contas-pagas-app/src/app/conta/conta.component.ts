@@ -3,6 +3,7 @@ import { Conta } from '../model/conta';
 import { ApiService } from '../services/api.service';
 import { ContaService } from '../services/Conta.service';
 import { DataStorage } from '../util/DataStorage';
+import { Util } from '../util/util';
 
 @Component({
   selector: 'app-conta',
@@ -15,46 +16,54 @@ export class ContaComponent implements OnInit {
   entidade: string = "contas";
   sourceDataWS: boolean = false;
   messageData: string = '';
+  isEdicao: boolean = false;
 
   constructor(private contaService: ContaService, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.conta = new Conta(0, '');
+    this.novaConta();
     DataStorage.initDataStorage(this.entidade);
     this.getListContasService();
   }
 
+
+  novaConta() {
+    this.conta = new Conta(0, '');;
+  }
+
   onSubmit() {
-    this.conta.id = this.listaContas.length + 1;
+    if (!this.isEdicao && !this.sourceDataWS)
+      this.conta.id = Util.retornaId(this.listaContas) + 1;
     this.saveConta(this.conta);
   }
 
   saveConta(conta: Conta) {
     if (this.sourceDataWS) {
-      this.apiService.saveItemObs(this.conta, this.entidade).subscribe(v => {
-        alert('cadastrei a conta com a api corretamente com observable...');
-        this.getListContas();
-      });
+      if (!this.isEdicao) {
+        this.apiService.saveItemObs(this.conta, this.entidade).subscribe(v => {
+          alert('cadastrei a conta com a api corretamente com observable...');
+          this.getListContas();
+        });
+      }
+      else {
+        this.apiService.updateItemObs(this.conta, this.entidade).subscribe(v => {
+          v.id = conta.id;
+          //alert('atualizei o credor com a api corretamente com observable...');
+          this.getListContas();
+        });
+      }
     }
     else {
-      //alert('erro ao cadastrar o credor... vou salvar no storage');
-      this.contaService.salvar(this.conta);
+      if (this.isEdicao)
+        this.contaService.atualizar(this.conta)
+      else
+        this.contaService.salvar(this.conta);
+
       this.getListContas();
     };
 
-
-    // if (this.sourceDataWS) {
-    //   this.apiService
-    //     .saveItem(this.conta, this.entidade)
-    //     .then((ent) => {
-    //       //alert('cadastrei a conta na api corretamente...');
-    //       this.getListContas();
-    //     });
-    // }
-    // else {
-    //   this.contaService.salvar(this.conta);
-    //   this.getListContas();
-    // }
+    this.isEdicao = false;
+    this.novaConta();
   }
 
   getListContasService() {
@@ -73,17 +82,6 @@ export class ContaComponent implements OnInit {
       this.sourceDataWS = false;
       this.getListContas();
     }
-
-    // this.apiService.getItems(this.entidade)
-    //   .then((lst) => {
-    //     this.listaContas = lst as Conta[];
-    //     this.sourceDataWS = true;
-    //     this.messageData = 'ORIGEM DOS DADOS: JSON SERVER'
-    //   })
-    //   .catch((er) => {
-    //     this.sourceDataWS = false;
-    //     this.getListContas();
-    //   });
   };
 
   getListContas() {
@@ -92,6 +90,31 @@ export class ContaComponent implements OnInit {
     else {
       this.listaContas = DataStorage.getList(this.entidade);
       this.messageData = 'ORIGEM DOS DADOS: WEBSTORAGE'
+    }
+  }
+
+  editConta(conta: Conta) {
+    let vCloneConta = Util.clonar(conta, this.entidade);
+    this.conta = vCloneConta;
+    this.isEdicao = true;
+  }
+
+  removeConta(conta: Conta) {
+    let result = Util.confirmar(conta);
+
+    if (result) {
+      if (!this.sourceDataWS) {
+        this.contaService.remover(conta);
+        this.getListContas();
+      }
+      else {
+        this.apiService.removeItemObs(conta, this.entidade).subscribe(response => {
+          this.listaContas = this.listaContas.filter(item => {
+            item.id !== conta.id;
+          });
+          this.getListContas();
+        });
+      }
     }
   }
 }

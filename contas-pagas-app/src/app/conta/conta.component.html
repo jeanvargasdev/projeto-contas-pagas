@@ -7,7 +7,7 @@
       <div
         id="msg-origem-dados"
         class="card-panel blue white-text"
-        
+
       >
         {{ this.messageData }}
       </div>
@@ -43,18 +43,6 @@
         Enviar
         <i class="material-icons right">send</i>
       </button>
-
-      <!--
-      <button
-        class="btn waves-effect waves-light red darken-4"
-        type="submit"
-        name="action"
-        [disabled]="!formConta.valid"
-      >
-        Cancelar
-        <i class="material-icons right">send</i>
-      </button>
-      -->
     </form>
   </div>
 
@@ -64,6 +52,7 @@
       <tr>
         <th>ID</th>
         <th>Tipo</th>
+        <th>Ações</th>
       </tr>
     </thead>
 
@@ -71,6 +60,24 @@
       <tr *ngFor="let c of listaContas">
         <td>{{ c.id }}</td>
         <td>{{ c.tipo | uppercase}}</td>
+        <td>
+          <button
+            class="btn waves-effect waves-light blue darken-4"
+            type="button"
+            (click)="editConta(c)"
+          >
+            Editar<i class="material-icons right">edit</i>
+          </button>
+
+          <button
+            class="btn waves-effect waves-light red darken-4"
+            (click)="removeConta(c)"
+          >
+            Excluir<i class="material-icons right">delete</i>
+          </button>
+
+        </td>
+
       </tr>
     </tbody>
   </table>

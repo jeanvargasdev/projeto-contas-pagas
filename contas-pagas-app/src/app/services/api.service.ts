@@ -46,4 +46,20 @@ export class ApiService {
         this.httpOptions
       );
   }
+
+  removeItemObs(classe: any, entidade: string): Observable<any> {
+    return this.httpClient
+      .delete<any>(
+        this.URL.concat(entidade+'/'+classe.id)
+      );
+  }
+
+  updateItemObs(classe: any, entidade: string): Observable<any> {
+    return this.httpClient
+      .put<any>(
+        this.URL.concat(entidade + '/' + classe.id),
+        JSON.stringify(classe),
+        this.httpOptions
+      );
+  }
 }
